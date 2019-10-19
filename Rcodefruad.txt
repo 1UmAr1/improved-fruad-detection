@@ -1,0 +1,348 @@
+
+data <- read.csv(file = file.choose(), header = T)
+head(data)
+#checking the class of the dataset
+class(data)
+
+#checking the class of the variables using sapply
+sapply(data[1,], class)
+unique(data)
+
+#checking the length of the unique vlaues of varaible class
+length(unique(data$Class))
+
+#doing the same with variable time and amount
+unique(data$Time)
+length(unique(data$Time))
+unique(data$Amount)
+length(unique(data$Amount))
+
+#checking the relation between amount and class variable
+table(data$Class, data$Amount)
+
+#checking the relation between amount and class variable
+table(data$Class[1:300], data$Amount[1:300])
+
+#checking if their is any wrong value in class variable
+any(data$Class[] > 1 || data$Class[] < 0)
+
+#checking for any missing values in class variable
+is.na(any(data$class))
+
+#subsetting the class variable
+data[data$Class[] == 0 & data$Class[] == 1, c("legit", "fruad")]
+
+#checking if we have missing values in our entire dataset
+is.na(any(data))
+
+fruad
+
+# Exploratory analysis
+# taking a look at the entire data set
+data
+
+# summarizing the data
+# checking the column names of the data
+colnames(data)
+
+# checking the number of rows
+nrow(data)
+
+# checking the dimensions of the data
+dim(data)
+summary(data)
+
+# usnig quantile to check the summary of individual variables
+# it aslo gives us an overview of the variables
+quantile(data$Time)
+quantile(data$Class)
+quantile(data$Amount)
+
+# checking the class of the variables using sapply
+# seleting the first row and applying class function to the variables of
+# first row using sapply
+
+sapply(data[1,], class)
+# checking the unique values of the Class variables
+unique(data$Class)
+
+# checking the length of the unique vlaues of varaible class
+length(unique(data$Class))
+
+# doing the same with variable time and amount
+unique(data$Time)
+length(unique(data$Time))
+unique(data$Amount)
+length(unique(data$Amount))
+
+# table listed all the unique variables and the number of times it appeared
+table(data$Class)
+
+# here we have only 492 positive or fruads in the entire dataset
+# as the dataset is the dependent variable
+# checking the relation between first 300 observation
+# of amount and class variable
+table(data$Class[1:300], data$Amount[1:300])
+# it shows the number of time a particular amount has been debited
+# by the customers
+
+# checking if their is any wrong value in class variable
+any(data$Class[] > 1 | data$Class[] < 0)
+
+# checking for any missing values in class variable
+is.na(any(data$class))
+# we have got no missing values in the Class variable which is a
+# good thing
+
+
+head(data, 2)
+#checking if we have missing values in our entire dataset
+is.na(any(data))
+
+# summarizing the data
+# checking the column names of the data
+colnames(data)
+
+# data munging
+split.screen(plot(data$Time, data$V1))
+
+# data munging
+data$Amount[1:10]
+
+
+
+
+# making a quantative variable
+Ranges <- cut(data$Time, seq(0, 4000, by = 200))
+Ranges
+
+summary(data$Amount) 
+which(is.na(data$Amount))
+
+any(is.na(data$Amount))
+
+
+# Exploratory graphs
+# Checking the data distribution using box plot
+boxplot(data$Class, col = "navy")
+# here the box plot shows that most of the transactions are legit
+
+
+boxplot(data$Amount, col = "navy") 
+# most of the transactions were between 0 to 10000
+
+boxplot(data$Time, col = "navy")
+# shit happens but we see that data is not symmetric
+
+# comparing different variables 
+boxplot(data$Amount ~ data$Class, col = "red1",)
+boxplot(data$V2 ~ data$Class, col = "red1")
+
+boxplot(data$V2 ~ data$Class, col = c("red1", "navy"),
+        names = c("legit", "fruad"), varwidth = T) 
+
+# checking the frequency of data
+barplot(table(data$Time), col = "blue")
+barplot(table(data$Class), col = "blue")
+barplot(table(data$Amount), col = "red4")
+barplot(table(data$V11), col = "red4")
+hist(table(data$V11, data$Class), col = "maroon")
+
+# visualizing relation between different variable using scatterplot
+plot(data$Class, data$Amount, pch = 10, col = "tomato3")
+# well the theifs were cheap
+
+titi <- which(data$Class > 0)
+
+boxplot(titi, data$Time, pch = 10, col = "tomato3", cex = 0.5, nnames = c("titi", "time"))
+plot(data$Class, data$Time, pch = 10, col = "tomato3")
+plot(titi, data$Time, pch = 10, col = "tomato3")
+
+
+# plotting variables side by side
+par(mfrow = c(1,2))
+hist(data$V11, col = "blue")
+hist(data$V12,col = "blue")
+
+par(mfrow = c(1, 2))
+hist(data$Class, col = "navy")
+hist(data$V13)
+
+par(mfrow = c(1,2))
+hist(data$V11, col = "blue")
+hist(data$V13,col = "blue")
+
+
+
+
+# making a linear model
+lm1 <- lm(data$Amount ~ data$Class)
+plot(data$Class, data$Amount, pch = 19, col = "blue")
+
+lines(data$Class, lm1$fitted, lwd = 3, col = "red")
+# cheap chooour 
+lm2 <- lm(data$V10 ~ data$Class)
+plot(data$Class, data$V10, pch = 19)
+
+lines(data$Class, lm2$fitted, col = "blue", lwd = 3)
+
+
+summary(lm1)
+
+anova(lm1)
+
+
+anoob <- aov(data$Class ~ data$Amount)
+anoob
+anoob$coefficients
+
+
+
+anob <- aov(data$Class ~ data$Amount + data$Time)
+anob
+anob$coefficients
+
+summary(anob)
+
+set.seed(111)
+train <- sample(data[1:150000, ])
+test <- sample(data[150001:280000, ])
+
+head(train)
+
+train <- as.data.frame(train1)
+test <- as.data.frame(test)
+
+lmt <- lm(train$Class ~ train$V14)
+summary(lmt)
+plot(train$Class ~ train$V14)
+abline(lmt)
+#sucks 
+
+lmt2 <- lm(train$Class ~  train$V4)
+summary(lmt2)
+
+
+plot(train$Class, train$V4)
+
+
+length(train$V4)
+library(glmnet)
+
+lm3 <- lm(train$Class ~ train$V10)
+summary(lm3)
+
+md <- predict(lm3, test)
+summary(md)
+plot(md)
+
+# model 2
+logiss <- glm(train$Class ~ ., data = train, family = "binomial")
+summary(logiss)
+
+modeln <- predict(logiss, test, type = "response") 
+
+modeln <- ifelse(modelm > 0.5, 1, 0)
+miss <- mean(modeln  != test$Class)
+
+print(paste("Accuracy", 1-miss))
+#best variables = v26, v19, v18, v4, v2, v16, v12, v3, amount, 
+# v22, v21, v17, v1, time
+
+predi <- data.frame(prof = logiss$fitted.values, cls = train$Class)
+predi
+
+plot(predi)
+
+predi$rank <- 1:nrow(predi)
+
+library(ggplot2)
+library(cowplot)
+
+ggplot(data = predi, aes(x = rank, y = prof)) +
+  geom_point(alpha = 1, shape = 4, stroke = 2) +
+  theme_set(theme_cowplot()) 
+
+# model 2
+loggis <- glm(train$Class ~ V26 + V18 +  V2 +  V3 + V4 + Amount + Time, data = train,
+              family = "binomial")
+
+summary(loggis)
+library(pscl)
+pR2(loggis)
+
+
+modelm <- predict(loggis, test, type = "response") 
+
+modelm <- ifelse(modelm > 0.5, 1, 0)
+mis <- mean(modelm != test$Class)
+
+print(paste("Accuracy", 1-mis))
+
+# fuck it
+#logistic regression using all the variables 
+#model 3
+logal <- glm(train$Class ~ ., data = train, family = "binomial")
+
+
+modelg <- predict(logal, test, type = "response") 
+
+modelg <- ifelse(modelg > 0.5, 1, 0)
+mist <- mean(modelg != test$Class)
+  ``
+print(paste("Accuracy", 1-mist))
+
+
+
+
+# model 4
+loggist <- glm(train$Class ~ V26 + V18 +  V2 +  V3 + V4 + Amount, data = train,
+              family = "binomial")
+
+modeltk <- predict(loggist, test, type = "response") 
+
+modeltk <- ifelse(modeltk > 0.5, 1, 0)
+misti <- mean(modeltk != test$Class)
+
+print(paste("Accuracy", 1-misti))
+
+# model 5
+loggi <- glm(train$Class ~ V26 + V18 +  V2 +  V3 + V4 + V16 + Amount + Time, data = train, family = "binomial")
+
+modelk <- predict(loggi, test, type = "response")
+modelk <- ifelse(modelk > 0.5, 1, 0)
+mistk <- mean(modelk != test$Class)
+print(paste("Accuracy", 1-mistk))
+
+# model 6
+loggf <- glm(train$Class ~  V12 +  V17 + V1 + V3 + V4 + V16 +  Time, data = train, family = "binomial")
+modelf <- predict(loggf, test, type = "response")
+modelf <- ifelse(modelf > 0.5, 1, 0)
+mistf <- mean(modelf != test$Class)
+print(paste("Accuracy", 1-mistf))
+
+# best model yet 
+# let us test this on all of our data 
+
+modela <- predict(loggf, data, type = "response")
+modela <- ifelse(modela > 0.5, 1, 0)
+mista <- mean(modela != test$Class)
+print(paste("Accuracy", 1-mista))
+
+
+# training a neural net using same varaibles 
+library(neuralnet)
+nn <- neuralnet(train$Class ~ V12 +  V17 + V1 + V3 + V4 + V16 +  Time, data = train, 
+                hidden = c(10, 3))
+
+plot(nn)
+
+neup <- predict(nn, test, type = "response")
+neup  <- ifelse(neup > 0.5, 1, 0)
+mistn <- mean(neup != test$Class)
+print(paste("Accuracy", 1-mistn))
+
+# well in this case logistic regression is better
+
+# loggf is the best model we have got i think
+
